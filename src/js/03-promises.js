@@ -7,8 +7,6 @@ const refs = {
   form: document.querySelector('.form'),
 };
 
-console.log(refs.delay);
-
 refs.form.addEventListener('submit', handleCreation);
 
 function handleCreation(event) {
