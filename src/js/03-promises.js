@@ -14,6 +14,10 @@ function handleCreation(event) {
   const amountToNumber = Number(refs.amount.value);
   const delayToNumber = Number(refs.delay.value);
   const stepToNumber = Number(refs.step.value);
+  if (amountToNumber <= 0 || stepToNumber < 0 || delayToNumber < 0) {
+    Notiflix.Notify.failure('Please, check inserted data again!');
+    return;
+  }
   let delayCounter = delayToNumber;
 
   for (let i = 1; i <= amountToNumber; i += 1) {

@@ -27,10 +27,24 @@ const options = {
   },
 };
 
+const resetBtn = document.createElement('button');
+resetBtn.textContent = 'Reset';
+resetBtn.type = 'button';
+
 const flatpickrInstance = flatpickr(refs.datePicker, options);
 refs.startBtn.addEventListener('click', handleStart);
 
 function handleStart(event) {
+  refs.startBtn.disabled = true;
+  refs.datePicker.disabled = true;
+  event.target.after(resetBtn);
+  resetBtn.addEventListener('click', () => {
+    clearInterval(counterID);
+    assingCounter({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+    refs.startBtn.disabled = false;
+    refs.datePicker.disabled = false;
+    resetBtn.remove();
+  });
   let diffData =
     flatpickrInstance.selectedDates[0].getTime() -
     options.defaultDate.getTime();
@@ -39,6 +53,10 @@ function handleStart(event) {
   const counterID = setInterval(() => {
     if (diffData - 1000 <= 0) {
       clearInterval(counterID);
+      refs.startBtn.disabled = false;
+      refs.datePicker.disabled = false;
+      resetBtn.removeEventListener('click');
+      resetBtn.remove();
       return;
     }
     diffData -= 1000;
